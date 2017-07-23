@@ -448,7 +448,7 @@ void CLaneMarkPlatformDlg::DrawRect(int nID, CPoint pt)
 	CDC * pRDC = GetDlgItem(nID)->GetDC();	// 画图DC
 	pRDC->SelectStockObject(NULL_BRUSH);	// 刷子透明
 
-	CPen myPen(PS_SOLID, 2, RGB(255,0,0));	// 创建画笔
+	CPen myPen(PS_SOLID, 1, RGB(0,255,0));	// 创建画笔
 	DeleteObject(pRDC->SelectObject(myPen));
 
 	rcTemp = CRect(ptStart,ptTemp); // 上次调用函数画的矩形
@@ -458,7 +458,7 @@ void CLaneMarkPlatformDlg::DrawRect(int nID, CPoint pt)
 	pRDC->Rectangle(rcTemp);		// 随画随擦
 	pRDC->Rectangle(rcLabel);
 
-	CString winTitle = _T("图像标注 - ");
+	CString winTitle = _T("LaneMark - ");
 	winTitle += GetTitleFromFileName(currFileName,TRUE);
 	// 在程序窗口标题上实时显示当前矩形的长宽
 	winTitle.AppendFormat(_T(" - %d X %d"),abs(rcLabel.Width()),abs(rcLabel.Height()));
@@ -474,7 +474,7 @@ void CLaneMarkPlatformDlg::reDrawRect(int nID)
 {
 	CDC * pRDC = GetDlgItem(nID)->GetDC();	// 画图DC
 	pRDC->SelectStockObject(NULL_BRUSH);	// 刷子透明
-	CPen myPen(PS_SOLID, 2, RGB(255,0,0));	// 创建画笔
+	CPen myPen(PS_SOLID, 1, RGB(0,255,0));	// 创建画笔
 	DeleteObject(pRDC->SelectObject(myPen));
 	pRDC->Rectangle(rcLabel);
 	ReleaseDC(pRDC);
@@ -856,7 +856,7 @@ int CLaneMarkPlatformDlg::OpenImage(CString currFileName)
 	// 显示
 	ShowImage(currPic,IDC_PIC,1);
 	// 在标题上显示当前打开的文件名
-	CString winTitle = _T("图像标注 - ");
+	CString winTitle = _T("LaneMarkPlatform - ");
 	winTitle += GetTitleFromFileName(currFileName,TRUE);
 	SetWindowTextW(winTitle);
 
@@ -907,7 +907,7 @@ int CLaneMarkPlatformDlg::OpenVideo(CString currFileName)
 	// 显示到图片上
 	ShowImage(currPic,IDC_PIC,1);
 	// 在标题上显示当前打开的文件名
-	CString winTitle = _T("图像标注 - ");
+	CString winTitle = _T("LaneMark - ");
 	winTitle += GetTitleFromFileName(currFileName,TRUE);
 	SetWindowTextW(winTitle);
 	// 释放上一次占用的数据变量
@@ -969,8 +969,8 @@ void CLaneMarkPlatformDlg::OnBnClickedPrevframe()
 // 鼠标移动过程中画矩形
 void CLaneMarkPlatformDlg::OnMouseMove(UINT nFlags, CPoint point)
 {
-	point.x -= 11;		// 不晓得什么原理，就是差11个点
-	point.y -= 11;
+	point.x -= 18;		// 不晓得什么原理，就是差11个点
+	point.y -= 18;
 
 	// 如果在画图状态且鼠标在图像区域内，则画矩形
 	if (isDrawing)
@@ -1008,8 +1008,10 @@ void CLaneMarkPlatformDlg::OnMouseMove(UINT nFlags, CPoint point)
 // 左键按下
 void CLaneMarkPlatformDlg::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	ptStart.x = point.x - 11;	// 校正11点的误差
-	ptStart.y = point.y - 11;
+	//ptStart.x = point.x - 11;	// 校正11点的误差
+	//ptStart.y = point.y - 11;
+	ptStart.x = point.x - 18;	// 校正11点的误差
+	ptStart.y = point.y - 18;
 
 	// 如果鼠标落点在图像区域内，则设定画图开始
 	if ( ptStart.x<rcImg.right && ptStart.y<rcImg.bottom
@@ -1028,8 +1030,8 @@ void CLaneMarkPlatformDlg::OnLButtonDown(UINT nFlags, CPoint point)
 // 左键抬起
 void CLaneMarkPlatformDlg::OnLButtonUp(UINT nFlags, CPoint point)
 {
-	point.x -= 11;
-	point.y -= 11;
+	point.x -= 18;
+	point.y -= 18;
 
 	ptEnd = ptTemp;				// 保存矩形最终落点
 
